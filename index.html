@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Correos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 350px;
+    }
+    input[type="email"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background: #0077ff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #005ecc;
+    }
+    #mensaje {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Registro de Correos</h2>
+    <p>Escribe tu correo institucional:</p>
+    <form id="formCorreo">
+      <input type="email" name="correo" id="correo" placeholder="ejemplo@colegio.edu.co" required>
+      <br>
+      <button type="submit">Enviar</button>
+    </form>
+    <p id="mensaje"></p>
+  </div>
+
+  <script>
+    document.getElementById("formCorreo").addEventListener("submit", function(e){
+      e.preventDefault();
+      var correo = document.getElementById("correo").value;
+      
+      fetch("https://script.google.com/macros/s/AKfycbxwYIySu362FVWVBrEMx46tT3jObKHcd0slVsTi-iM4fywkIEGIky8q7eVPAwKai3mT/exec", {
+        method: "POST",
+        body: new URLSearchParams({ "correo": correo })
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("mensaje").innerText = "✅ ¡Correo registrado!";
+        document.getElementById("correo").value = "";
+      })
+      .catch(error => {
+        document.getElementById("mensaje").innerText = "❌ Error, intenta de nuevo.";
+      });
+    });
+  </script>
+</body>
+</html>
